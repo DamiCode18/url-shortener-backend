@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
+import { generateUniqueRandomString } from 'uniqstr';
 
 @Injectable()
 export class UrlService {
@@ -17,7 +18,7 @@ export class UrlService {
     }
 
     // If the URL does not exist, generate a new short URL
-    const newShortUrl = this.generateShortUrl();
+    const newShortUrl = this.generateShortUrl(originalUrl);
 
     // Create the new URL in the database
     const createdUrl = await PrismaService.url.create({
@@ -42,9 +43,13 @@ export class UrlService {
     return url ? url.originalUrl : null;
   }
 
-  private generateShortUrl(): string {
-    // Add your custom logic to generate short URLs
-    // For simplicity, you might use a library like shortid or generate a random string
-    return `${Math.random().toString(36).substring(6)}`;
+  private generateShortUrl(originalUrl: string): string {
+    // using uniqstr for short unique string generator
+    // Generate a random number between 5 and 9 (inclusive)
+    const randomNumber = Math.floor(Math.random() * (7 - 5 + 1)) + 5;
+
+    // Round the random number
+    const roundedNumber = Math.round(randomNumber);
+    return generateUniqueRandomString(originalUrl, roundedNumber);
   }
 }
