@@ -45,6 +45,6 @@ export class UrlService {
   private generateShortUrl(): string {
     // Add your custom logic to generate short URLs
     // For simplicity, you might use a library like shortid or generate a random string
-    return Math.random().toString(36).substring(7);
+    return `${Math.random().toString(36).substring(6)}`;
   }
 }
