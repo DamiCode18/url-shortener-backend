@@ -14,6 +14,6 @@ datasource db {
 // urs models
 model Url {
   id        Int      @id @default(autoincrement())
-  originalUrl String @unique
+  originalUrl String
   shortUrl    String @unique
 }
